@@ -13,6 +13,13 @@ namespace Books
         protected string contents;
         protected string publisher;
         
+        public Book()
+        {
+            this.Pages = 0;
+            this.author = "none";
+            this.publisher = "none";
+            this.contents = "none";
+        }
         public Book(int pages, string auth, string contents, string publisher)
         {
             this.Pages = pages;
@@ -50,6 +57,11 @@ namespace Books
                 string r = @"^\w+\s+\w*$";
                 publisher = Regex.IsMatch(publisher, r) ? publisher : "error";
             }
+        }
+
+        public string get_author()
+        {
+            return author;
         }
     }
 
