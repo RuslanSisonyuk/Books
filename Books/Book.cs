@@ -9,6 +9,7 @@ namespace Books
     class Book
     {
         protected int number_of_pages;
+        protected string name;
         protected string author;
         protected string contents;
         protected string publisher;
@@ -16,16 +17,27 @@ namespace Books
         public Book()
         {
             this.Pages = 0;
+            this.name = "none";
             this.author = "none";
             this.publisher = "none";
             this.contents = "none";
         }
-        public Book(int pages, string auth, string publisher, string contents)
+        public Book(string name, int pages, string auth, string publisher, string contents)
         {
+            this.Name = name;
             this.Pages = pages;
             this.Author = auth;
             this.Publisher = publisher;
             this.Contents = contents;
+        }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                string r = @"^\w+\s*\w*\s*\w*$";
+                name = Regex.IsMatch(value, r) ? value : "error";
+            }
         }
         public int Pages
         {
@@ -44,27 +56,27 @@ namespace Books
         public string Contents
         {
             get { return contents; }
-            set
-            {
-                contents = value.Length > 1000 ? "Given text is too long" : value;
-            }
+            set{ contents = value.Length > 1000 ? "Given text is too long" : value; }
         }
         public string Publisher
         {
             get { return publisher; }
-            set
-            {
+            set {
                 string r = @"^\w+\s*\w*$";
                 publisher = Regex.IsMatch(value, r) ? value : "error";
             }
         }
 
+        public string Print_book_info()
+        {
+            return name + " | " + author + " | " + publisher + " | " + number_of_pages;
+        }
     }
 
     class Comic : Book
     {
         protected int panels_per_page;
-        public Comic(int panels, int pages, string auth, string contents, string publisher) : base(pages,auth,contents,publisher)
+        public Comic(string name, int panels, int pages, string auth, string contents, string publisher) : base(name, pages,auth,contents,publisher)
         {
             this.Panels_per_page = panels;
         }
@@ -80,9 +92,8 @@ namespace Books
 
     class Newspaper : Book
     {
-        public Newspaper(int pages, string auth, string contents, string publisher) : base(pages, auth, contents, publisher) 
+        public Newspaper(string name, int pages, string auth, string contents, string publisher) : base(name, pages, auth, contents, publisher) 
         { }
-        //rework to get the quotes from a file
         public void Use_as_intended()
         {
             string[] str = System.IO.File.ReadAllLines("/Contents/quotes.txt");
