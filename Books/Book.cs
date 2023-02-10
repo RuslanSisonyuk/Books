@@ -20,49 +20,45 @@ namespace Books
             this.publisher = "none";
             this.contents = "none";
         }
-        public Book(int pages, string auth, string contents, string publisher)
+        public Book(int pages, string auth, string publisher, string contents)
         {
             this.Pages = pages;
             this.Author = auth;
             this.Publisher = publisher;
             this.Contents = contents;
         }
-        private int Pages
+        public int Pages
         {
             get { return number_of_pages; }
             //give an error when this happens?
-            set { number_of_pages = number_of_pages < 0 ? 0 : number_of_pages; }
+            set { number_of_pages = value < 0 ? 0 : value; }
         }
-        private string Author 
+        public string Author 
         {
             get { return author; }
             set {
-                string r = @"^\w+\s+\w*$";
-                author = Regex.IsMatch(author,r) ? author : "error";
+                string r = @"^\w+\.*\s+\w*$";
+                author = Regex.IsMatch(value,r) ? value : "error";
             }
         }
-        private string Contents
+        public string Contents
         {
             get { return contents; }
             set
             {
-                contents = contents.Length > 1000 ? "Given text is too long" : contents;
+                contents = value.Length > 1000 ? "Given text is too long" : value;
             }
         }
-        private string Publisher
+        public string Publisher
         {
             get { return publisher; }
             set
             {
-                string r = @"^\w+\s+\w*$";
-                publisher = Regex.IsMatch(publisher, r) ? publisher : "error";
+                string r = @"^\w+\s*\w*$";
+                publisher = Regex.IsMatch(value, r) ? value : "error";
             }
         }
 
-        public string get_author()
-        {
-            return author;
-        }
     }
 
     class Comic : Book
@@ -91,14 +87,6 @@ namespace Books
         {
             string[] str = System.IO.File.ReadAllLines("/Contents/quotes.txt");
             List<string> quotes = new List<string>(str);
-
-            /*quotes.Add("GET THIS YOU PESKY FLY!");
-            quotes.Add("IT'S NO USE!");
-            quotes.Add("Crap, I'm out of paper...");
-            quotes.Add("*Reads about brain transplant* \n `Where did you get that brain...  The brain store?! ... \n " +
-                "*The room falls in complete fucking silence while you, feeling everybody's judging gazes, reconsider your life choises*");
-            quotes.Add("You've chosen your weapon well.");*/
-
             var random = new Random();
             int quote_id = random.Next(quotes.Count);
             Console.WriteLine(quotes[quote_id]);

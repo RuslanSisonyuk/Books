@@ -34,11 +34,10 @@ namespace Books
             return books;
         }
 
-         
+        
         static void Main(string[] args)
         {
             List<Book> new_list = Get_all_books("books");
-            Console.WriteLine(new_list[0].get_author());
         }
     }
 }
