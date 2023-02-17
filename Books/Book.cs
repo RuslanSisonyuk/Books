@@ -56,7 +56,7 @@ namespace Books
         public string Contents
         {
             get { return contents; }
-            set{ contents = value.Length > 1000 ? "Given text is too long" : value; }
+            set { contents = value.Length > 1000 ? "Given text is too long" : value; }
         }
         public string Publisher
         {
